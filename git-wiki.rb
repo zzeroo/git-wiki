@@ -53,7 +53,7 @@ class Page
 end
 
 get('/') { redirect '/' + HOMEPAGE }
-get('/_stylesheet.css') { File.read('stylesheet.css') }
+get('/_stylesheet.css') { File.read(File.join(File.dirname(__FILE__), 'stylesheet.css')) }
 
 get '/_list' do
   if $repo.commits.empty?
