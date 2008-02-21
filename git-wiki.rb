@@ -47,6 +47,11 @@ class Page
     $repo.commits.first.tree.contents.map { |b| b.name }.include?(@name)    
   end
 
+  def history
+    return nil unless tracked?
+    $repo.log('master', @name)
+  end
+
   def to_s
     "<li><strong><a href='/#{@name}'>#{@name}</a></strong> — <a href='/e/#{@name}'>edit</a></li>"
   end
@@ -81,6 +86,11 @@ post '/e/:page' do
   redirect '/' + @page.name
 end
 
+get '/h/:page' do
+  @page = Page.new(params[:page])
+  haml(history)
+end
+
 def layout(title, content)
   %Q(
 %html
@@ -100,6 +110,7 @@ end
 def show
   layout(@page.name, %q(
       %a{:href => '/e/' + @page.name, :class => 'edit_link'} edit this page
+      %a{:href => '/h/' + @page.name, :class => 'edit_link'} history of page
     %h1{:class => 'page_title'}= @page.name
     #page_content= @page.body
   ))
@@ -119,6 +130,19 @@ def edit
   ))
 end
 
+def history
+  layout("History of #{@page.name}", %q(
+    %h1
+      History of
+      %a{:href => "/#{@page.name}" }= @page.name
+    %ul
+      - @page.history.each do |commit|
+        %li
+          %em= commit.committed_date.to_s
+          = commit.message
+  ))
+end
+
 def list
   layout('Listing pages', %q{
     %h1 All pages
@@ -128,4 +152,3 @@ def list
       %ul= @pages.each(&:to_s)
   })
 end
-
