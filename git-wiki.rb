@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-%w(rubygems sinatra grit maruku rubypants haml).each do |a_gem| 
+%w(rubygems sinatra grit redcloth).each do |a_gem| 
   begin
     require a_gem
   rescue LoadError => e
@@ -8,7 +8,7 @@
   end
 end
 
-GIT_REPO = ENV['HOME'] + '/wiki'
+GIT_REPO = ARGV[1] || ENV['HOME'] + '/wiki'
 GIT_DIR  = File.join(GIT_REPO, '.git')
 HOMEPAGE = 'Home'
 
@@ -20,6 +20,12 @@ end
 
 $repo = Grit::Repo.new(GIT_REPO)
 
+class String
+  def wiki_linked
+    self.gsub!(/\b((?:[A-Z]\w+){2,})/) { |m| "<a href=\"/e/#{m}\">#{m}</a>" }
+  end
+end
+
 class Page
   attr_reader :name
 
@@ -29,7 +35,7 @@ class Page
   end
 
   def body
-    @body ||= Maruku.new(RubyPants.new(raw_body).to_html).to_html
+    @body ||= RedCloth.new(RubyPants.new(raw_body).to_html).to_html.wiki_linked
   end
 
   def raw_body
@@ -62,17 +68,17 @@ get '/_list' do
     @pages = $repo.commits.first.tree.contents.map { |blob| Page.new(blob.name) }
   end
   
-  haml(list)
+  list
 end
 
 get '/:page' do
   @page = Page.new(params[:page])
-  @page.tracked? ? haml(show) : redirect('/e/' + @page.name)
+  @page.tracked? ? show : redirect('/e/' + @page.name)
 end
 
 get '/e/:page' do
   @page = Page.new(params[:page])
-  haml(edit)
+  edit
 end
 
 post '/e/:page' do
@@ -82,50 +88,61 @@ post '/e/:page' do
 end
 
 def layout(title, content)
-  %Q(
-%html
-  %head
-    %title #{title}
-    %link{:rel => 'stylesheet', :href => '/_stylesheet.css', :type => 'text/css', :media => 'screen'}
-    %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
-
-  %body
-    #navigation
-      %a{:href => '/'} Home
-      %a{:href => '/_list'} List
-    #{content}
-  )
+  <<-HTML
+  <html>
+    <head>
+      <title>#{title}</title>
+      <link rel="stylesheet" href="/_stylesheet.css" type="text/css" media="screen" />
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+      <div id="navigation">
+        <a href="/">Home</a>
+        <a href="/_list">List</a>
+      </div>
+      #{content}
+    </body>
+  </html>
+  HTML
 end
 
 def show
-  layout(@page.name, %q(
-      %a{:href => '/e/' + @page.name, :class => 'edit_link'} edit this page
-    %h1{:class => 'page_title'}= @page.name
-    #page_content= @page.body
-  ))
+  layout(@page.name,
+  <<-HTML
+  <a href="/e/#{@page.name}" class="edit_link">edit this page</a>
+  <h1 class="page_title">#{@page.name}</h1>
+  <div id="page_content">#{@page.body}</div>  
+  HTML
+  )
 end
 
 def edit
-  layout("Editing #{@page.name}", %q(
-    %h1
-      Editing
-      = @page.name
-      %a{:href => 'javascript:history.back()', :class => 'cancel'} Cancel
-    %form{ :method => 'POST', :action => '/e/' + params[:page]}
-      %p
-        ~"<textarea name='body' rows='25' cols='130'>#{@page.raw_body}</textarea>"
-      %p
-        %input{:type => :submit, :value => 'Save as the newest version', :class => :submit}
-  ))
+  layout("Editing #{@page.name}",
+  <<-HTML
+  <h1>Editing #{@page.name}</h1>
+  <a href="javascript:history.back();" class="cancel">Cancel</a>
+  <form method="post" action="/e/#{params[:page]}">
+    <p>
+      <textarea name="body" rows="25" cols="130">
+        #{@page.raw_body}
+      </textarea>
+    </p>
+    <p><input type="submit" value="Save as the newest version" class="submit" /></p>
+  </form>
+  HTML
+  )
 end
 
 def list
-  layout('Listing pages', %q{
-    %h1 All pages
-    - if @pages.empty?
-      %p No pages found.
-    - else
-      %ul= @pages.each(&:to_s)
-  })
+  if @pages.empty?
+    layout('Listing pages', '<p>No pages found.</p>')
+  else
+    layout('Listing pages',   
+    <<-HTML
+    <h1>All pages</h1>
+    <ul>#{@pages.each {|page| page.to_s}}</ul>
+    HTML
+    )
+  end
 end
 
