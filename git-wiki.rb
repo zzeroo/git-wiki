@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-%w(rubygems sinatra grit maruku rubypants haml).each do |a_gem| 
+%w(rubygems sinatra grit maruku rubypants haml).each do |a_gem|
   begin
     require a_gem
   rescue LoadError => e
@@ -44,12 +44,16 @@ class Page
 
   def tracked?
     return false if $repo.commits.empty?
-    $repo.commits.first.tree.contents.map { |b| b.name }.include?(@name)    
+    $repo.commits.first.tree.contents.map { |b| b.name }.include?(@name)
   end
 
   def history
     return nil unless tracked?
     $repo.log('master', @name)
+  end
+
+  def diff(rev)
+    $repo.diff($repo.commit(rev).parents.first, rev, @name)
   end
 
   def to_s
@@ -66,7 +70,7 @@ get '/_list' do
   else
     @pages = $repo.commits.first.tree.contents.map { |blob| Page.new(blob.name) }
   end
-  
+
   haml(list)
 end
 
@@ -90,6 +94,12 @@ get '/h/:page' do
   @page = Page.new(params[:page])
   haml(history)
 end
+
+get '/d/:page/:rev' do
+  @page = Page.new(params[:page])
+  haml(diff)
+end
+
 
 def layout(title, content)
   %Q(
@@ -130,6 +140,15 @@ def edit
   ))
 end
 
+def diff
+  layout("Diff of #{@page.name}", %q(
+    %h1
+      Diff of
+      %a{:href => "/#{@page.name}" }= @page.name
+    %pre= @page.diff(params[:rev])
+  ))
+end
+
 def history
   layout("History of #{@page.name}", %q(
     %h1
@@ -139,7 +158,7 @@ def history
       - @page.history.each do |commit|
         %li
           %em= commit.committed_date.to_s
-          = commit.message
+          %a{:href => "/d/#{@page.name}/#{commit.id}"}= commit.message
   ))
 end
 
