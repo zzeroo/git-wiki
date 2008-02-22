@@ -52,8 +52,12 @@ class Page
     $repo.log('master', @name)
   end
 
-  def diff(rev)
+  def delta(rev)
     $repo.diff($repo.commit(rev).parents.first, rev, @name)
+  end
+
+  def version(rev)
+    ($repo.tree(rev)/@name).data
   end
 
   def to_s
@@ -95,9 +99,14 @@ get '/h/:page' do
   haml(history)
 end
 
+get '/h/:page/:rev' do
+  @page = Page.new(params[:page])
+  haml(version)
+end
+
 get '/d/:page/:rev' do
   @page = Page.new(params[:page])
-  haml(diff)
+  haml(delta)
 end
 
 
@@ -126,6 +135,15 @@ def show
   ))
 end
 
+def version
+  layout(@page.name, %q(
+      %a{:href => '/e/' + @page.name, :class => 'edit_link'} edit this page
+      %a{:href => '/h/' + @page.name, :class => 'edit_link'} history of page
+    %h1{:class => 'page_title'}= @page.name
+    #page_content= @page.version(params[:rev])
+  ))
+end
+
 def edit
   layout("Editing #{@page.name}", %q(
     %h1
@@ -140,12 +158,12 @@ def edit
   ))
 end
 
-def diff
+def delta
   layout("Diff of #{@page.name}", %q(
     %h1
       Diff of
       %a{:href => "/#{@page.name}" }= @page.name
-    %pre= @page.diff(params[:rev])
+    %pre= @page.delta(params[:rev])
   ))
 end
 
@@ -158,7 +176,9 @@ def history
       - @page.history.each do |commit|
         %li
           %em= commit.committed_date.to_s
-          %a{:href => "/d/#{@page.name}/#{commit.id}"}= commit.message
+          %a{:href => "/h/#{@page.name}/#{commit.id}"}= commit.message
+          - unless commit.parents.empty?
+            %a{:href => "/d/#{@page.name}/#{commit.id}"} diff
   ))
 end
 
