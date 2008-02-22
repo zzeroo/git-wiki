@@ -7,7 +7,7 @@ class Page
   end
 
   def body
-    @body ||= RedCloth.new(RubyPants.new(raw_body).to_html).to_html.wiki_linked
+    @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
   end
 
   def raw_body
