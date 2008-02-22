@@ -36,6 +36,6 @@ class Page
 
   def version(rev)
     data = ($repo.tree(rev)/@name).data
-    RedCloth.new(RubyPants.new(data).to_html).to_html.wiki_linked
+    RubyPants.new(RedCloth.new(data).to_html).to_html.wiki_linked
   end
 end
