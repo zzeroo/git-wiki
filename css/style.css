@@ -1,56 +1,113 @@
+/* elements */
+
 body {
-  font-family: Verdana, Arial, "Bitstream Vera Sans", Helvetica, sans-serif;
-  font-size: 14px;
-  color: black;
-  line-height: 160%;
-  background-color: white;
+  background-color: #fff;
+  color: #333;
+  font-family: Helvetica, Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
+  font-size: .95em;
+  line-height: 1.6em;
   margin: 2em;
 }
 
-#navigation {
-  padding: 5px;
-  border-bottom: 1px black solid;
-}
-
-#navigation a {
-  background-color: #e0e0e0;
-  color: black;
+a { 
+  color: #6d7fa3;
   text-decoration: none;
-  padding: 2px;
+}
+a:visited { color: #7b69b0; }
+a:hover { text-decoration: underline; }
+
+code, pre, .delta {
+  font-family: "Deja Vu Sans Mono", "Bitstream Vera Sans Mono", "Inconsolata", "Consolas", monospace;
 }
 
 h1 {
-  display: block;
-  padding-bottom: 5px;
+  color: #333;
+  font-size: 3.5em;
+  margin: 24px 0 8px 0;
 }
 
-a { color: black }
-
-em {
-  font-size: 0.8em;
+textarea {
+  border: 1px solid #ccc;
+  font-family: "Deja Vu Sans Mono", "Bitstream Vera Sans Mono", "Inconsolata", "Consolas", monospace;
+  font-size: .9em;
+  padding: 5px;
 }
 
-.submit {
-  font-size: large;
-  font-weight: bold;
+ul {
+  list-style-type: square;
+  padding: 0;
 }
 
-.page_title { font-size: xx-large; } 
-
-.edit_link {
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #e0e0e0;
-  font-variant: small-caps;
-  text-decoration: none;
-}
+/* classes */
 
 .cancel {
-  background-color: #e0e0e0;
   font-weight: normal;
   text-decoration: none;
   font-size: 14px;
 }
 .cancel:before { content: "("; }
 .cancel:after { content: ")" }
+
+.clearer { clear: both; }
+
+.content {
+  margin-left: 35%;
+  margin-top: -.55em;
+  padding: 0 10px 2px 10px;
+}
+
+.delta {
+  font-size: 1.1em;
+  padding: 0;
+}
+
+.nav_link, .nav_link:visited {
+  display: inline;
+  padding: 3px;
+  color: #666;
+}
+
+.nav_link:hover {
+  background-color: #d1ccdb;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav_list, #footer {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  list-style-type: none;
+  padding: 4px;
+  text-align: right;
+}
+
+.nav_list li {
+  display: inline;
+  padding-right: 10px;
+}
+
+.right { text-align: right; }
+
+.submit {
+  font-size: large;
+  font-weight: bold;
+}
+
+.sub_nav { float: left; }
+
+/* ids */
+
+#container {
+ clear: both;
+ margin: auto;
+ width: 70%;
+}
+
+#edit_textarea {
+  height: 35em;
+  margin-top: 1.5em;
+  width: 100%;
+}
+
+#footer a, #footer a:visited { color: #666; }
+

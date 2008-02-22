@@ -1,4 +1,10 @@
-<a href="/e/<%= @page.name %>" class="edit_link">edit this page</a>
-<a href="/h/<%= @page.name %>" class="edit_link">history of page</a>
 <h1 class="page_title"><%= @page.name %></h1>
-<div id="page_content"><%= @page.version(params[:rev]) %></div>
+
+<div class="sub_nav">
+  <a href="/<%= @page.name %>" class="nav_link">current</a> &bull;
+  <a href="/h/<%= @page.name %>" class="nav_link">history</a>
+</div>
+
+<div class="content">
+  <%= @page.version(params[:rev]) %>
+</div>

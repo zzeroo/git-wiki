@@ -6,10 +6,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <body>
-    <div id="navigation">
-      <a href="/">Home</a>
-      <a href="/_list">List</a>
+    <div id="container">
+      <ul class="nav_list" id="top_nav">
+        <li><a href="/" class="nav_link">home</a></li>
+        <li><a href="/_list" class="nav_link">pages</a></li>
+      </ul>
+      <%= yield %>
+      <div id="footer">
+        powered by <a href="http://github.com/sr/git-wiki/network">git-wiki</a>
+      </div>
     </div>
-    <%= yield %>
   </body>
 </html>

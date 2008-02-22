@@ -1,8 +1,15 @@
-<h1>Editing <%= @page.name %></h1>
-<a href="javascript:history.back();" class="cancel">Cancel</a>
-<form method="post" action="/e/<%= params[:page] %>">
-  <p>
-    <textarea name="body" rows="25" cols="130"><%= @page.raw_body %></textarea>
-  </p>
-  <p><input type="submit" value="Save as the newest version" class="submit" /></p>
-</form>
+<h1>Editing <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
+
+<div class="sub_nav">
+  <a href="/<%= @page.name %>" class="nav_link">back</a> &bull;
+  <a href="/h/<%= @page.name %>" class="nav_link">history</a> 
+</div>
+
+<div class="content">
+  <form method="post" action="/e/<%= params[:page] %>">
+    <textarea name="body" id="edit_textarea"><%= @page.raw_body %></textarea>
+    <p class="right"><input type="submit" value="Save" class="submit" /></p>
+  </form>
+</div>
+
+<div class="clearer"></div>
