@@ -26,6 +26,10 @@ h1 {
 
 a { color: black }
 
+em {
+  font-size: 0.8em;
+}
+
 .submit {
   font-size: large;
   font-weight: bold;

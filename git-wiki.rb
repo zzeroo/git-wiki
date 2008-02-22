@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-%w(rubygems sinatra grit redcloth).each do |a_gem| 
+%w(rubygems sinatra grit redcloth rubypants uv).each do |a_gem| 
   begin
     require a_gem
   rescue LoadError => e
@@ -11,6 +11,7 @@ end
 GIT_REPO = ARGV[1] || ENV['HOME'] + '/wiki'
 GIT_DIR  = File.join(GIT_REPO, '.git')
 HOMEPAGE = 'Home'
+UV_THEME = 'twilight'
 
 unless File.exists?(GIT_DIR) && File.directory?(GIT_DIR)
   FileUtils.mkdir_p(GIT_DIR)
@@ -50,7 +51,20 @@ class Page
 
   def tracked?
     return false if $repo.commits.empty?
-    $repo.commits.first.tree.contents.map { |b| b.name }.include?(@name)    
+    $repo.commits.first.tree.contents.map { |b| b.name }.include?(@name)
+  end
+
+  def history
+    return nil unless tracked?
+    $repo.log('master', @name)
+  end
+
+  def delta(rev)
+    $repo.diff($repo.commit(rev).parents.first, rev, @name)
+  end
+
+  def version(rev)
+    ($repo.tree(rev)/@name).data
   end
 
   def to_s
@@ -60,6 +74,7 @@ end
 
 get('/') { redirect '/' + HOMEPAGE }
 get('/_stylesheet.css') { File.read(File.join(File.dirname(__FILE__), 'stylesheet.css')) }
+get('/_code.css') { File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
 
 get '/_list' do
   if $repo.commits.empty?
@@ -87,12 +102,28 @@ post '/e/:page' do
   redirect '/' + @page.name
 end
 
+get '/h/:page' do
+  @page = Page.new(params[:page])
+  history
+end
+
+get '/h/:page/:rev' do
+  @page = Page.new(params[:page])
+  version
+end
+
+get '/d/:page/:rev' do
+  @page = Page.new(params[:page])
+  delta
+end
+
 def layout(title, content)
   <<-HTML
   <html>
     <head>
       <title>#{title}</title>
       <link rel="stylesheet" href="/_stylesheet.css" type="text/css" media="screen" />
+      <link rel="stylesheet" href="/_code.css" type="text/css" media="screen" />
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
     <body>
@@ -110,8 +141,20 @@ def show
   layout(@page.name,
   <<-HTML
   <a href="/e/#{@page.name}" class="edit_link">edit this page</a>
+  <a href="/h/#{@page.name}" class="edit_link">history of this page</a>
   <h1 class="page_title">#{@page.name}</h1>
   <div id="page_content">#{@page.body}</div>  
+  HTML
+  )
+end
+
+def version
+  layout(@page.name, 
+  <<-HTML
+  <a href="/e/#{@page.name}" class="edit_link">edit this page</a>
+  <a href="/h/#{@page.name}" class="edit_link">history of page</a>
+  <h1 class="page_title">#{@page.name}</h1>
+  <div id="page_content">#{@page.version(params[:rev])}</div>
   HTML
   )
 end
@@ -133,6 +176,35 @@ def edit
   )
 end
 
+def delta  
+  diff = @page.delta(params[:rev])
+  highlighted_diff = Uv.parse(diff, "xhtml", "diff", true, UV_THEME)
+  
+  layout("Diff of #{@page.name}", 
+  <<-HTML
+  <h1>Diff of <a href="/#{@page.name}">#{@page.name}</a></h1>
+  #{highlighted_diff}
+  HTML
+  )
+end
+
+def history
+  commits = ""
+  @page.history.each do |c| 
+    commits += "<li><em>#{c.committed_date}</em> "
+    commits += "<a href=\"/h/#{@page.name}/#{c.id}\">#{c.message}</a> "
+    commits += "<a href=\"/d/#{@page.name}/#{c.id}\">diff</a>" unless c.parents.empty?
+    commits += "</li>"
+  end
+  
+  layout("History of #{@page.name}",
+  <<-HTML
+  <h1>History of <a href="/#{@page.name}">#{@page.name}</a></h1>
+  <ul>#{commits}</ul>
+  HTML
+  )
+end
+
 def list
   if @pages.empty?
     layout('Listing pages', '<p>No pages found.</p>')
@@ -145,4 +217,3 @@ def list
     )
   end
 end
-
