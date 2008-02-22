@@ -1,11 +1,13 @@
 = SOON
-  * working launchd plist (al3x)
-  * backlinks (trivial syntax, ideally) - requested by lattice
+  * next/previous version links on pages (partially complete)
+  * working launchd plist
   * deleting pages 
   * pushing repo
 
 = LATER/MAYBE
+  * backlinks (trivial syntax, ideally)
   * outliner functionality
+  * repo stats/info/maintenance page
   
 = DONE
-  * Pretty stylesheet (al3x and timoni)
+  * Pretty stylesheet

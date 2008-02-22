@@ -67,8 +67,8 @@ get '/h/:page' do
 end
 
 get '/h/:page/:rev' do
-  @page = Page.new(params[:page])
-  show :version, "Version of #{@page.name}"
+  @page = Page.new(params[:page], params[:rev])
+  show :show, "#{@page.name} / version #{params[:rev]})"
 end
 
 get '/d/:page/:rev' do

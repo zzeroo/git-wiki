@@ -1,8 +1,9 @@
 class Page
   attr_reader :name
 
-  def initialize(name)
+  def initialize(name, rev=nil)
     @name = name
+    @rev = rev
     @filename = File.join(GIT_REPO, @name)
   end
 
@@ -11,7 +12,11 @@ class Page
   end
 
   def raw_body
-    @raw_body ||= File.exists?(@filename) ? File.read(@filename) : ''
+    if @rev
+       @raw_body ||= ($repo.tree(@rev)/@name).data
+    else
+      @raw_body ||= File.exists?(@filename) ? File.read(@filename) : ''
+    end
   end
 
   def body=(content)
@@ -32,6 +37,23 @@ class Page
 
   def delta(rev)
     $repo.diff($repo.commit(rev).parents.first, rev, @name)
+  end
+  
+  def previous_commit
+    # FIXME this is going through all commits, not just those containing
+    # this page
+    rev = @rev || $repo.commits.first
+    commit = $repo.commit(rev).parents.first
+    
+    if ($repo.tree(commit.to_s)/@name)
+      commit
+    else
+      nil
+    end
+  end
+  
+  def next_commit
+    # TODO implement
   end
 
   def version(rev)
