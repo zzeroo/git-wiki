@@ -1,0 +1,5 @@
+<h1>Diff of <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
+<%= 
+  diff = @page.delta(params[:rev])
+  Uv.parse(diff, "xhtml", "diff", true, UV_THEME)
+%>

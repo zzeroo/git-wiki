@@ -1,0 +1,10 @@
+<% if @pages.empty? %>
+  <p>No pages found.</p>
+<% else %>
+  <h1>All pages</h1>
+  <ul>
+    <% @pages.each do |page| %>
+      <%= page.to_s %>
+    <% end %>
+  </ul>
+<% end %>

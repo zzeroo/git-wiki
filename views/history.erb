@@ -1,0 +1,12 @@
+<h1>History of <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
+<ul>
+  <% @page.history.each do |c| %>
+    <li>
+      <em><%= c.committed_date %></em>
+      <a href="/h/<%= @page.name %>/<%= c.id %>"><%= c.message %></a>
+      <% unless c.parents.empty? %>
+        <a href="/d/<%= @page.name %>/<%= c.id %>">diff</a>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
