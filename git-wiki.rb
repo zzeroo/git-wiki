@@ -81,7 +81,7 @@ def show(template, title)
 end
 
 get('/') { redirect '/' + HOMEPAGE }
-get('/_stylesheet.css') { File.read(File.join(File.dirname(__FILE__), 'stylesheet.css')) }
+get('/_style.css') { File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
 
 get '/_list' do
