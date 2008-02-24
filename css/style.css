@@ -95,6 +95,13 @@ ul {
 
 .sub_nav { float: left; }
 
+.details {
+  text-align: right;
+  font-size: 75%;
+  margin: 2em 0 0 0;
+  color: #888;
+}
+
 /* ids */
 
 #container {

@@ -1,20 +1,24 @@
 <h1><%= @page.name %></h1>
 
-<div class="sub_nav">  
+<div class="sub_nav">
   <% if params[:rev] %>
     <a href="/<%= @page.name %>" class="nav_link">current</a> &bull;
   <% else %>
     <a href="/e/<%= @page.name %>" class="nav_link">edit</a> &bull;
   <% end %>
-  
+
   <a href="/h/<%= @page.name %>" class="nav_link">history</a>
-  
+
   <% if @page.previous_commit %>
-    &bull; <a href="/h/<%= @page.name %>/<%= @page.previous_commit%>" class="nav_link">older</a>
+    &bull; <a href="/h/<%= @page.name %>/<%= @page.previous_commit %>" class="nav_link">older</a>
   <% end %>
+
+  <br />
 </div>
 
 <div class="content">
   <%= @page.body %>
 </div>
+
+<p class="details"><%= @page.updated_at %></p>
 

@@ -11,7 +11,7 @@
       <li>
         <%= c.committed_date %> &mdash;
         <a href="/h/<%= @page.name %>/<%= c.id %>"><%= c.message %></a>
-        <% unless c.parents.empty? %>
+        <% unless @page.history.last == c %>
          &bull; <a href="/d/<%= @page.name %>/<%= c.id %>">diff</a>
         <% end %>
       </li>

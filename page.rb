@@ -11,9 +11,13 @@ class Page
     @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
   end
 
+  def updated_at
+    commit.committed_date
+  end
+
   def raw_body
     if @rev
-       @raw_body ||= ($repo.tree(@rev)/@name).data
+       @raw_body ||= blob.data
     else
       @raw_body ||= File.exists?(@filename) ? File.read(@filename) : ''
     end
@@ -32,32 +36,31 @@ class Page
 
   def history
     return nil unless tracked?
-    $repo.log('master', @name)
+    @history ||= $repo.log('master', @name)
   end
 
   def delta(rev)
-    $repo.diff($repo.commit(rev).parents.first, rev, @name)
+    $repo.diff(previous_commit, rev, @name)
   end
-  
+
   def previous_commit
-    # FIXME this is going through all commits, not just those containing
-    # this page
-    rev = @rev || $repo.commits.first
-    commit = $repo.commit(rev).parents.first
-    
-    if ($repo.tree(commit.to_s)/@name)
-      commit
-    else
-      nil
-    end
+    @previous_commit ||= $repo.log(@rev || 'master', @name, {"max-count" => 2})[1]
   end
-  
+
   def next_commit
     # TODO implement
   end
 
   def version(rev)
-    data = ($repo.tree(rev)/@name).data
+    data = blob.data
     RubyPants.new(RedCloth.new(data).to_html).to_html.wiki_linked
+  end
+
+  def commit
+    @commit ||= $repo.log(@rev || 'master', @name, {"max-count" => 1}).first
+  end
+
+  def blob
+    @blob ||= ($repo.tree(@rev)/@name)
   end
 end
