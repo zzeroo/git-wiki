@@ -1,13 +1,14 @@
 = SOON
-  * next/previous version links on pages (partially complete)
   * working launchd plist
   * deleting pages 
   * pushing repo
 
 = LATER/MAYBE
   * backlinks (trivial syntax, ideally)
+  * Shoes/RubyCocoa GUI
   * outliner functionality
   * repo stats/info/maintenance page
   
 = DONE
+  * next/previous commit links on pages
   * Pretty stylesheet

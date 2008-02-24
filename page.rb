@@ -42,22 +42,28 @@ class Page
   def delta(rev)
     $repo.diff(previous_commit, rev, @name)
   end
+  
+  def commit
+    @commit ||= $repo.log(@rev || 'master', @name, {"max-count" => 1}).first
+  end
 
   def previous_commit
     @previous_commit ||= $repo.log(@rev || 'master', @name, {"max-count" => 2})[1]
   end
 
   def next_commit
-    # TODO implement - use history & commit
+    if self.history[0].to_s == self.commit.to_s
+      @next_commit ||= nil
+    else
+      matching_index = nil
+      history.each_with_index { |c, i| matching_index = i if c.to_s == self.commit.to_s }
+      @next_commit ||= history[matching_index - 1]
+    end
   end
 
   def version(rev)
     data = blob.data
     RubyPants.new(RedCloth.new(data).to_html).to_html.wiki_linked
-  end
-
-  def commit
-    @commit ||= $repo.log(@rev || 'master', @name, {"max-count" => 1}).first
   end
 
   def blob
