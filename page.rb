@@ -48,7 +48,7 @@ class Page
   end
 
   def next_commit
-    # TODO implement
+    # TODO implement - use history & commit
   end
 
   def version(rev)
