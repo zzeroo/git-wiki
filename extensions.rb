@@ -4,3 +4,9 @@ class String
     self
   end
 end
+
+class Time
+  def for_time_ago_in_words
+    "#{(self.to_i * 1000)}"
+  end
+end

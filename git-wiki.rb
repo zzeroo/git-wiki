@@ -34,6 +34,7 @@ end
 get('/') { redirect '/' + HOMEPAGE }
 get('/_style.css') { File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
+get('/_app.js') { File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
 
 get '/_list' do
   if $repo.commits.empty?
