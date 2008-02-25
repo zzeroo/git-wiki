@@ -31,6 +31,14 @@ def show(template, title)
   erb(template)
 end
 
+def page_with_ext
+  if params[:format] == "html"
+    params[:page]
+  else
+    "#{params[:page]}.#{params[:format]}"
+  end
+end
+
 get('/') { redirect '/' + HOMEPAGE }
 get('/_style.css') { File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
@@ -47,32 +55,32 @@ get '/_list' do
 end
 
 get '/:page' do
-  @page = Page.new(params[:page])
+  @page = Page.new(page_with_ext)
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
 end
 
 get '/e/:page' do
-  @page = Page.new(params[:page])
+  @page = Page.new(page_with_ext)
   show :edit, "Editing #{@page.name}"
 end
 
 post '/e/:page' do
-  @page = Page.new(params[:page])
+  @page = Page.new(page_with_ext)
   @page.body = params[:body]
   redirect '/' + @page.name
 end
 
 get '/h/:page' do
-  @page = Page.new(params[:page])
+  @page = Page.new(page_with_ext)
   show :history, "History of #{@page.name}"
 end
 
 get '/h/:page/:rev' do
-  @page = Page.new(params[:page], params[:rev])
+  @page = Page.new(page_with_ext, params[:rev])
   show :show, "#{@page.name} / version #{params[:rev]})"
 end
 
 get '/d/:page/:rev' do
-  @page = Page.new(params[:page])
+  @page = Page.new(page_with_ext)
   show :delta, "Diff of #{@page.name}"
 end

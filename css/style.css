@@ -51,6 +51,7 @@ ul {
 .clearer { clear: both; }
 
 .content {
+  margin-bottom: 1em;
   margin-left: 35%;
   margin-top: -.55em;
   padding: 0 10px 2px 10px;
