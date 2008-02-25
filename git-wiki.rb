@@ -80,7 +80,21 @@ get '/h/:page/:rev' do
   show :show, "#{@page.name} / version #{params[:rev]})"
 end
 
+# FIXME this repeats the above just to accomodate pages with 
+# file extensions.  bad!
+get '/h/:page.:format/:rev' do
+  @page = Page.new(page_with_ext, params[:rev])
+  show :show, "#{@page.name} / version #{params[:rev]})"
+end
+
 get '/d/:page/:rev' do
+  @page = Page.new(page_with_ext)
+  show :delta, "Diff of #{@page.name}"
+end
+
+# FIXME this repeats the above just to accomodate pages with 
+# file extensions.  bad!
+get '/d/:page.:format/:rev' do
   @page = Page.new(page_with_ext)
   show :delta, "Diff of #{@page.name}"
 end

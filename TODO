@@ -1,4 +1,5 @@
 = SOON
+  * fix duplication of routes/methods to accommodate file extensions
   * working launchd plist
   * deleting pages 
   * pushing repo
