@@ -20,7 +20,6 @@ module Uv
                'pl' => 'perl',
                'py' => 'python',
                'rb' => 'ruby' }
-    puts "equiv is #{equivs[ext]} for #{ext}"
     equivs[ext]
   end
 end

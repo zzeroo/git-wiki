@@ -10,5 +10,6 @@
   * repo stats/info/maintenance page
   
 = DONE
+  * allow "code pages" by supporting file extensions, applying syntax highlighting
   * next/previous commit links on pages
-  * Pretty stylesheet
+  * pretty stylesheet
