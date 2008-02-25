@@ -48,10 +48,7 @@ ul {
 .cancel:before { content: "("; }
 .cancel:after { content: ")" }
 
-.clearer { clear: both; }
-
 .content {
-  margin-bottom: 1em;
   margin-left: 35%;
   margin-top: -.55em;
   padding: 0 10px 2px 10px;
@@ -116,5 +113,5 @@ ul {
   width: 100%;
 }
 
+#footer { clear: both; }
 #footer a, #footer a:visited { color: #666; }
-
