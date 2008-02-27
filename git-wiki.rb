@@ -39,10 +39,14 @@ def page_with_ext
   end
 end
 
+def page_url
+  "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
+end
+
 get('/') { redirect '/' + HOMEPAGE }
-get('/_style.css') { File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
-get('/_code.css') { File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
-get('/_app.js') { File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
+get('/_style.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
+get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
+get('/_app.js') { header 'Content-Type' => 'application/x-javascript'; File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
 
 get '/_list' do
   if $repo.commits.empty?
@@ -55,8 +59,15 @@ get '/_list' do
 end
 
 get '/:page' do
+  @page_url = page_url
   @page = Page.new(page_with_ext)
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
+end
+
+get '/:page/append' do
+  @page = Page.new(page_with_ext)
+  @page.body = @page.raw_body + "\n\n" + params[:text]
+  redirect '/' + @page.name
 end
 
 get '/e/:page' do

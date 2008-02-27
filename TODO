@@ -1,5 +1,6 @@
 = SOON
   * fix duplication of routes/methods to accommodate file extensions
+  * per-page bookmarklets: save bookmark of current page (Instapaper), 
   * working launchd plist
   * deleting pages 
   * pushing repo
@@ -11,6 +12,7 @@
   * repo stats/info/maintenance page
   
 = DONE
+  * "append selected text to page" bookmarklet (shamelessly cribbed from Trsly) 
   * allow "code pages" by supporting file extensions, applying syntax highlighting
   * next/previous commit links on pages
   * pretty stylesheet

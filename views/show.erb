@@ -1,5 +1,7 @@
 <h1><%= @page.name %></h1>
 
+<%= @env %>
+
 <div class="sub_nav">
   <% if params[:rev] %>
     <a href="/<%= @page.name %>" class="nav_link">current</a> &bull;
@@ -21,9 +23,9 @@
     <script type="text/javascript">
       document.write(time_ago_in_words(<%= @page.updated_at.for_time_ago_in_words %>) + ' ago');
     </script>
+    <br />
+    <a href="javascript:var q; if (window.getSelection) q=window.getSelection(); else if (document.selection) q=document.selection.createRange().text; if (q) location.href='<%= @page_url %>/append?text='+encodeURIComponent(q+' (from &quot;'+document.title+'&quot;:'+location.href+')'); else alert('Nothing Selected.');">append bookmarklet</a>
   </div>
 </div>
 
-<div class="content">
-  <%= @page.body %></div>
-
+<div class="content"><%= @page.body %></div>
