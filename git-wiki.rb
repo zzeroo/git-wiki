@@ -1,28 +1,8 @@
 #!/usr/bin/env ruby
 
-%w(rubygems sinatra grit redcloth rubypants uv).each do |a_gem| 
-  begin
-    require a_gem
-  rescue LoadError => e
-    puts "You need to 'sudo gem install #{a_gem}' before we can proceed"
-  end
-end
+require 'environment'
 
-require 'page'
-require 'extensions'
-
-GIT_REPO = ARGV[1] || ENV['HOME'] + '/wiki'
-GIT_DIR  = File.join(GIT_REPO, '.git')
-HOMEPAGE = 'Home'
-UV_THEME = 'idle'
-
-unless File.exists?(GIT_DIR) && File.directory?(GIT_DIR)
-  FileUtils.mkdir_p(GIT_DIR)
-  puts "Initializing repository in #{GIT_REPO}..."
-  `git --git-dir #{GIT_DIR} init`
-end
-
-$repo = Grit::Repo.new(GIT_REPO)
+require_gem_with_feedback 'sinatra'
 
 layout { File.read('views/layout.erb') }
 

@@ -5,10 +5,10 @@
   * pushing repo
 
 = LATER/MAYBE
-  * backlinks (trivial syntax, ideally)
-  * Shoes/RubyCocoa GUI
-  * outliner functionality
   * repo stats/info/maintenance page
+  * backlinks (trivial syntax, ideally)
+  * outliner functionality
+  * RubyCocoa GUI
   
 = DONE
   * "append selected text/link to page" bookmarklet (shamelessly cribbed 
@@ -17,3 +17,7 @@
     highlighting
   * next/previous commit links on pages
   * pretty stylesheet
+  
+= PROBABLY NOT
+  * Shoes GUI: Shoes is still pretty immature, ex: all paths are relative 
+    to the `shoes` binary making requires a pain, etc.
