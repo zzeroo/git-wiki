@@ -29,12 +29,7 @@ get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(Fil
 get('/_app.js') { header 'Content-Type' => 'application/x-javascript'; File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
 
 get '/_list' do
-  if $repo.commits.empty?
-    @pages = []
-  else
-    @pages = $repo.commits.first.tree.contents.map { |blob| Page.new(blob.name) }
-  end
-
+  @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
   show(:list, 'Listing pages')  
 end
 

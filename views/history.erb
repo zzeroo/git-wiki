@@ -9,10 +9,10 @@
   <ul>
     <% @page.history.each do |c| %>
       <li>
-        <%= c.committed_date %> &mdash;
-        <a href="/h/<%= @page.name %>/<%= c.id %>"><%= c.message %></a>
-        <% unless @page.history.last == c %>
-         &bull; <a href="/d/<%= @page.name %>/<%= c.id %>">diff</a>
+        <%= c.committer_date %> &mdash;
+        <a href="/h/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
+        <% unless @page.history.first == c %>
+         &bull; <a href="/d/<%= @page.name %>/<%= c.sha %>">diff</a>
         <% end %>
       </li>
     <% end %>

@@ -4,6 +4,18 @@
   * deleting pages 
   * pushing repo
 
+= CHACON IDEAS
+  * download tarball
+  * branching (clean/derivative)
+  * inter-branch links
+  * remotes (add / fetch)
+  * merge branches (local and remotes)
+  * tagging
+  * cherry-picked branches (read-tree/write-tree)
+  * git-less version (read-only)
+  * push?
+  * users (email/name/ip - use for commits)
+  
 = LATER/MAYBE
   * repo stats/info/maintenance page
   * backlinks (trivial syntax, ideally)
