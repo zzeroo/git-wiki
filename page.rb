@@ -17,7 +17,11 @@ class Page
       @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
     end
   end
-
+  
+  def branch_name
+    $repo.current_branch
+  end
+  
   def updated_at
     commit.committer_date
   end
@@ -33,8 +37,12 @@ class Page
   def body=(content)
     File.open(@filename, 'w') { |f| f << content }
     message = tracked? ? "edited #{@name}" : "created #{@name}"
-    $repo.add(@name)
-    $repo.commit(message)
+    begin
+      $repo.add(@name)
+      $repo.commit(message)
+    rescue 
+      nil
+    end
   end
 
   def tracked?

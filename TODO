@@ -5,8 +5,6 @@
   * pushing repo
 
 = CHACON IDEAS
-  * download tarball
-  * branching (clean/derivative)
   * inter-branch links
   * remotes (add / fetch)
   * merge branches (local and remotes)

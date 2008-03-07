@@ -23,6 +23,16 @@ def page_url
   "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
 end
 
+def touchfile
+  # adds meta file to repo so we have somthing to commit initially
+  $repo.chdir do
+    f = File.new(".meta",  "w+")
+    f.puts($repo.current_branch)
+    f.close
+    $repo.add('.meta')
+  end
+end
+
 get('/') { redirect '/' + HOMEPAGE }
 get('/_style.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
@@ -90,4 +100,37 @@ get '/a/tarball' do
   header 'Content-Disposition' => 'filename=archive.tgz'
   archive = $repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
   File.open(archive).read
+end
+
+get '/a/branches' do
+  @branches = $repo.branches
+  show :branches, "Branches List"
+end
+
+get '/a/branch/:branch' do
+  $repo.checkout(params[:branch])
+  redirect '/' + HOMEPAGE
+end
+
+get '/a/delete_branch/:branch' do
+  $repo.branch(params[:branch]).delete
+  redirect '/a/branches'
+end
+
+post '/a/new_branch' do
+  $repo.branch(params[:branch]).create
+  $repo.checkout(params[:branch])
+  if params[:type] == 'blank'
+    # clear out the branch
+    $repo.chdir do 
+      Dir.glob("*").each do |f|
+        puts f
+        File.unlink(f)
+        $repo.remove(f)
+      end
+      touchfile
+      $repo.commit('clean branch start')
+    end
+  end
+  redirect '/a/branches'
 end
