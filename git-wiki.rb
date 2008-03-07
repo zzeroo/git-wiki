@@ -84,3 +84,10 @@ get '/d/:page.:format/:rev' do
   @page = Page.new(page_with_ext)
   show :delta, "Diff of #{@page.name}"
 end
+
+get '/a/tarball' do
+  header 'Content-Type' => 'application/x-gzip'
+  header 'Content-Disposition' => 'filename=archive.tgz'
+  archive = $repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
+  File.open(archive).read
+end
