@@ -4,7 +4,7 @@
 
 rubygems
 sinatra
-grit
+git
 redcloth
 rubypants
 ultraviolet (uv) - a pain to install - required installing Onigurama ala
