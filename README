@@ -1,0 +1,12 @@
+= git-wiki -- because who needs cool names when you use git?
+
+== Requirements
+
+rubygems
+sinatra
+grit
+redcloth
+rubypants
+ultraviolet (uv) - a pain to install - required installing Onigurama ala
+                   http://snippets.aktagon.com/snippets/61
+
