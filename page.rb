@@ -23,7 +23,7 @@ class Page
   end
   
   def updated_at
-    commit.committer_date
+    commit.committer_date rescue Time.now
   end
 
   def raw_body
@@ -71,12 +71,16 @@ class Page
   end
 
   def next_commit
-    if (self.history.first.sha == self.commit.sha)
+    begin
+      if (self.history.first.sha == self.commit.sha)
+        @next_commit ||= nil
+      else
+        matching_index = nil
+        history.each_with_index { |c, i| matching_index = i if c.sha == self.commit.sha }
+        @next_commit ||= history.to_a[matching_index - 1]
+      end
+    rescue 
       @next_commit ||= nil
-    else
-      matching_index = nil
-      history.each_with_index { |c, i| matching_index = i if c.sha == self.commit.sha }
-      @next_commit ||= history.to_a[matching_index - 1]
     end
   end
 

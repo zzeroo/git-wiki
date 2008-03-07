@@ -112,6 +112,20 @@ get '/a/branch/:branch' do
   redirect '/' + HOMEPAGE
 end
 
+get '/a/history' do
+  @history = $repo.log
+  show :branch_history, "Branch History"
+end
+
+get '/a/revert_branch/:sha' do
+  $repo.with_temp_index do 
+    $repo.read_tree params[:sha]
+    $repo.checkout_index
+    $repo.commit('reverted branch')
+  end
+  redirect '/a/history'
+end
+
 get '/a/merge_branch/:branch' do
   $repo.merge(params[:branch])
   redirect '/a/branches'
