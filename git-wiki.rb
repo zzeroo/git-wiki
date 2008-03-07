@@ -112,6 +112,11 @@ get '/a/branch/:branch' do
   redirect '/' + HOMEPAGE
 end
 
+get '/a/merge_branch/:branch' do
+  $repo.merge(params[:branch])
+  redirect '/a/branches'
+end
+
 get '/a/delete_branch/:branch' do
   $repo.branch(params[:branch]).delete
   redirect '/a/branches'
