@@ -5,11 +5,12 @@
 
 = CHACON IDEAS
   * inter-branch links
-  * remotes (add / fetch)
   * tagging
+  * file attachments
   * merge conflict resolution
   * cherry-picked branches (read-tree/write-tree)
   * git-less version (read-only)
+  * track which branched from which
   * push?
   * users (email/name/ip - use for commits)
   

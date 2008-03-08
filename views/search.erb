@@ -1,0 +1,23 @@
+<% if @grep.empty? %>
+  <h1>No pages match</h1>
+<% else %>
+  <h1>All matches for '<%= @search %>'</h1>
+    <br/>
+    <table width="100%">
+    <% @grep.each do |sha, arr_match| %>
+      <% (sha, file) = sha.split(':') %>
+      <tr>
+        <td valign="top"><%= $repo.object(sha).name %></td>
+        <td valign="top"><a href="/<%= file %>"><%= file %></a></td>
+        <td><table>
+        <% arr_match.each do |line, match| %>
+        <tr>
+          <td><%= line %></td>
+          <td><small><%= match %></small></td>
+         </tr>
+        <% end %>
+        </table></td>
+      </tr>
+    <% end %>
+    </table>
+<% end %>
