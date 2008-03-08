@@ -149,3 +149,9 @@ post '/a/new_branch' do
   end
   redirect '/a/branches'
 end
+
+post '/a/new_remote' do
+  $repo.add_remote(params[:branch_name], params[:branch_url])
+  $repo.fetch(params[:branch_name])
+  redirect '/a/branches'
+end

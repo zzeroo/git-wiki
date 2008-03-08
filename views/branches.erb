@@ -5,9 +5,9 @@
 <% @branches.each do |b| %>
   <tr>
     <% if b.current %>
-      <td><strong><%= b.name %></strong></td>
+      <td><strong><%= b.full %></strong></td>
     <% else %>
-      <td><%= b.name %></td>
+      <td><%= b.full %></td>
       <td><a href="/a/branch/<%= b.name %>">switch</a></td>
       <td><a href="/a/merge_branch/<%= b.name %>">merge</a></td>
       <!-- <td><a href="/a/delete_branch/<%= b.name %>">delete</a></td> -->
@@ -16,11 +16,38 @@
 <% end %>
 </table>
 
+<hr/>
+
 <h2>New Branch</h2>
   <form method="post" action="/a/new_branch">
-    New Branch Name : <input name="branch"><br/>
-    <input type="radio" name="type" value="derive">Derivative Branch 
-        <small>(starts new branch based on this one)</small><br/>
-    <input type="radio" name="type" value="blank">Blank Branch <small>(starts new blank branch)</small><br/>
-    <p class="right"><input type="submit" value="Create Branch" class="submit" /></p>
+    <table>
+      <tr>
+        <td> New Branch Name : </td>
+        <td> <input name="branch"></td>
+      </tr>
+      <tr>
+        <td align="right"> <input type="radio" name="type" value="derive"></td>
+        <td> Derivative Branch <small>(starts new branch based on this one)</small></td>
+      </tr>
+      <tr>
+        <td align="right"> <input type="radio" name="type" value="blank"> </td>
+        <td> Blank Branch <small>(starts new blank branch)</small></td>
+      </tr>
+      </table>
+      <p class="right"><input type="submit" value="Create Branch" class="submit" /></p>
+  </form>
+  
+<h2>New Remote Branch</h2>
+  <form method="post" action="/a/new_remote">
+    <table>
+      <tr>
+        <td> Remote Branch URL : </td>
+        <td> <input name="branch_url"></td>
+      </tr>
+      <tr>
+        <td> Remote Branch Name : </td>
+        <td> <input name="branch_name"></td>
+      </tr>
+    </table>
+    <p class="right"><input type="submit" value="Add Remote Branch" class="submit" /></p>
   </form>
