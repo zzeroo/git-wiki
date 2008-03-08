@@ -1,0 +1,15 @@
+<h1>Branch History</h1>
+
+<table width="100%">
+<% @history.each do |commit| %>
+  <tr>
+    <td><code><%= commit.sha[0, 8] %></code></td>
+    <td><%= commit.date %></td>
+    <td><%= commit.message %></td>
+    <td><%= commit.name %></td>
+    <% if commit != @history.first %>
+    <td><a href="/a/revert_branch/<%= commit.sha %>">revert</td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
