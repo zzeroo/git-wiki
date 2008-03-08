@@ -1,6 +1,5 @@
 = SOON
-  * fix duplication of routes/methods to accommodate file extensions
-  * working launchd plist
+  * repo stats/info/maintenance page
   * deleting pages 
   * pushing repo
 
@@ -15,12 +14,14 @@
   * users (email/name/ip - use for commits)
   
 = LATER/MAYBE
-  * repo stats/info/maintenance page
   * backlinks (trivial syntax, ideally)
   * outliner functionality
+  * menubar item launcher (like Instiki back in the day)
   * RubyCocoa GUI
+  * working launchd plist
   
 = DONE
+  * fix duplication of routes/methods to accommodate file extensions
   * "append selected text/link to page" bookmarklet (shamelessly cribbed 
     from Trsly/Instapaper) 
   * allow "code pages" by supporting file extensions, applying syntax 

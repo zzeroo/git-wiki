@@ -71,28 +71,18 @@ get '/h/:page' do
   show :history, "History of #{@page.name}"
 end
 
-get '/h/:page/:rev' do
-  @page = Page.new(page_with_ext, params[:rev])
-  show :show, "#{@page.name} / version #{params[:rev]})"
+['/h/:page/:rev', '/h/:page.:format/:rev'].each do |r|
+  get r do
+    @page = Page.new(page_with_ext, params[:rev])
+    show :show, "#{@page.name} (version #{params[:rev]})"
+  end
 end
 
-# FIXME this repeats the above just to accomodate pages with 
-# file extensions.  bad!
-get '/h/:page.:format/:rev' do
-  @page = Page.new(page_with_ext, params[:rev])
-  show :show, "#{@page.name} / version #{params[:rev]})"
-end
-
-get '/d/:page/:rev' do
-  @page = Page.new(page_with_ext)
-  show :delta, "Diff of #{@page.name}"
-end
-
-# FIXME this repeats the above just to accomodate pages with 
-# file extensions.  bad!
-get '/d/:page.:format/:rev' do
-  @page = Page.new(page_with_ext)
-  show :delta, "Diff of #{@page.name}"
+['/d/:page/:rev', '/d/:page.:format/:rev'].each do |r|
+  get r do
+    @page = Page.new(page_with_ext)
+    show :delta, "Diff of #{@page.name}"
+  end
 end
 
 get '/a/tarball' do
