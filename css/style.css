@@ -112,6 +112,10 @@ ul {
   margin-top: 1.5em;
   width: 100%;
 }
+#message_textarea {
+  height: 4em;
+  width: 100%;
+}
 
 #footer { clear: both; }
 #footer a, #footer a:visited { color: #666; }

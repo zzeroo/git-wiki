@@ -62,7 +62,7 @@ end
 
 post '/e/:page' do
   @page = Page.new(page_with_ext)
-  @page.body = params[:body]
+  @page.update(params[:body], params[:message])
   redirect '/' + @page.name
 end
 
@@ -118,7 +118,7 @@ end
 
 get '/a/merge_branch/:branch' do
   $repo.merge(params[:branch])
-  redirect '/a/branches'
+  redirect '/' + HOMEPAGE
 end
 
 get '/a/delete_branch/:branch' do
@@ -133,7 +133,6 @@ post '/a/new_branch' do
     # clear out the branch
     $repo.chdir do 
       Dir.glob("*").each do |f|
-        puts f
         File.unlink(f)
         $repo.remove(f)
       end
