@@ -7,8 +7,8 @@
 = CHACON IDEAS
   * inter-branch links
   * remotes (add / fetch)
-  * merge branches (local and remotes)
   * tagging
+  * merge conflict resolution
   * cherry-picked branches (read-tree/write-tree)
   * git-less version (read-only)
   * push?
