@@ -37,6 +37,7 @@ get('/') { redirect '/' + HOMEPAGE }
 get('/_style.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
 get('/_app.js') { header 'Content-Type' => 'application/x-javascript'; File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
+get('/_search.png') { header 'Content-Type' => 'image/png'; File.read(File.join(File.dirname(__FILE__), 'images', "search.png")) }
 
 get '/_list' do
   @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
@@ -62,7 +63,7 @@ end
 
 post '/e/:page' do
   @page = Page.new(page_with_ext)
-  @page.body = params[:body]
+  @page.update(params[:body], params[:message])
   redirect '/' + @page.name
 end
 
@@ -83,6 +84,13 @@ end
     @page = Page.new(page_with_ext)
     show :delta, "Diff of #{@page.name}"
   end
+end
+
+get '/a/patch/:page/:rev' do
+  @page = Page.new(page_with_ext)
+  header 'Content-Type' => 'text/x-diff'
+  header 'Content-Disposition' => 'filename=patch.diff'
+  @page.delta(params[:rev])
 end
 
 get '/a/tarball' do
@@ -118,7 +126,7 @@ end
 
 get '/a/merge_branch/:branch' do
   $repo.merge(params[:branch])
-  redirect '/a/branches'
+  redirect '/' + HOMEPAGE
 end
 
 get '/a/delete_branch/:branch' do
@@ -133,7 +141,6 @@ post '/a/new_branch' do
     # clear out the branch
     $repo.chdir do 
       Dir.glob("*").each do |f|
-        puts f
         File.unlink(f)
         $repo.remove(f)
       end
@@ -142,4 +149,16 @@ post '/a/new_branch' do
     end
   end
   redirect '/a/branches'
+end
+
+post '/a/new_remote' do
+  $repo.add_remote(params[:branch_name], params[:branch_url])
+  $repo.fetch(params[:branch_name])
+  redirect '/a/branches'
+end
+
+get '/a/search' do
+  @search = params[:search]
+  @grep = $repo.grep(@search)
+  show :search, 'Search Results'
 end

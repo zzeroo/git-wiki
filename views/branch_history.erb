@@ -4,7 +4,7 @@
 <% @history.each do |commit| %>
   <tr>
     <td><code><%= commit.sha[0, 8] %></code></td>
-    <td><%= commit.date %></td>
+    <td><small><%= commit.date %></small></td>
     <td><%= commit.message %></td>
     <td><%= commit.name %></td>
     <% if commit != @history.first %>
