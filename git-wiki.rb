@@ -85,6 +85,13 @@ end
   end
 end
 
+get '/a/patch/:page/:rev' do
+  @page = Page.new(page_with_ext)
+  header 'Content-Type' => 'text/x-diff'
+  header 'Content-Disposition' => 'filename=patch.diff'
+  @page.delta(params[:rev])
+end
+
 get '/a/tarball' do
   header 'Content-Type' => 'application/x-gzip'
   header 'Content-Disposition' => 'filename=archive.tgz'
