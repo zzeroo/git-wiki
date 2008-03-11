@@ -1,0 +1,12 @@
+h1. git-wiki
+
+_because who needs cool names when you use git?_
+
+h2. Requirements
+
+* rubygems
+* sinatra
+* grit
+* redcloth
+* rubypants
+* ultraviolet (uv) - requires "Oniguruma":http://www.geocities.jp/kosako3/oniguruma/
