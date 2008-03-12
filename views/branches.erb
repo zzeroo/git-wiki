@@ -1,53 +1,47 @@
 <h1>Branches</h1>
 
-<h2>Branch List</h2>
-<table>
-<% @branches.each do |b| %>
-  <tr>
+<div class="sub_nav">
+  <% @branches.each do |b| %>
     <% if b.current %>
-      <td><strong><%= b.full %></strong></td>
+      <strong><%= b.full %></strong>
     <% else %>
-      <td><%= b.full %></td>
-      <td><a href="/a/branch/<%= b.name %>">switch</a></td>
-      <td><a href="/a/merge_branch/<%= b.name %>">merge</a></td>
-      <!-- <td><a href="/a/delete_branch/<%= b.name %>">delete</a></td> -->
+      <%= b.full %>
+      <a href="/a/branch/<%= b.name %>">switch</a> &bull;
+      <a href="/a/merge_branch/<%= b.name %>">merge</a>
+      <!-- &bull; <a href="/a/delete_branch/<%= b.name %>">delete</a> -->
     <% end %>
-  </tr>
-<% end %>
-</table>
+    <br />
+  <% end %>
+</div>
 
-<hr/>
-
-<h2>New Branch</h2>
+<div class="content">
+  <h2>New Branch</h2>
   <form method="post" action="/a/new_branch">
-    <table>
-      <tr>
-        <td> New Branch Name : </td>
-        <td> <input name="branch"></td>
-      </tr>
-      <tr>
-        <td align="right"> <input type="radio" name="type" value="derive"></td>
-        <td> Derivative Branch <small>(starts new branch based on this one)</small></td>
-      </tr>
-      <tr>
-        <td align="right"> <input type="radio" name="type" value="blank"> </td>
-        <td> Blank Branch <small>(starts new blank branch)</small></td>
-      </tr>
-      </table>
-      <p class="right"><input type="submit" value="Create Branch" class="submit" /></p>
+    <label for="name">name</label>
+    <input type="text" name="branch" />
+    <br />
+    
+    <label for="derive_radio">copy this branch</label>
+    <input type="radio" name="type" value="derive" />
+    
+    <label for="blank_radio">empty branch</label>
+    <input type="radio" name="type" value="blank" /> 
+    <br />
+    
+    <input type="submit" value="create" class="submit" />
   </form>
-  
-<h2>New Remote Branch</h2>
+
+  <h2>New Remote Branch</h2>
   <form method="post" action="/a/new_remote">
-    <table>
-      <tr>
-        <td> Remote Branch URL : </td>
-        <td> <input name="branch_url"></td>
-      </tr>
-      <tr>
-        <td> Remote Branch Name : </td>
-        <td> <input name="branch_name"></td>
-      </tr>
-    </table>
-    <p class="right"><input type="submit" value="Add Remote Branch" class="submit" /></p>
+    <label for="branch_url">url</label>
+    <input type="text" name="branch_url">
+    <br />
+
+    <label for="branch_name">name</label>
+    <input type="text" name="branch_name">
+    <br />
+
+    <input type="submit" value="create" class="submit" />
   </form>
+</div>
+

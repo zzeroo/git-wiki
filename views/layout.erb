@@ -10,13 +10,12 @@
     <div id="container">
       <form method="get" action="/a/search">
       <ul class="nav_list" id="top_nav">
-        <li><strong><%= $repo.current_branch %></strong></li>
         <li><a href="/" class="nav_link">home</a></li>
         <li><a href="/a/branches" class="nav_link">branches</a></li>        
         <li><a href="/a/history" class="nav_link">history</a></li>        
         <li><a href="/_list" class="nav_link">pages</a></li>
-        <li><a href="/a/tarball" class="nav_link">tarball</a></li>
-        <li><input name="search" size="15"> <input type="image" src="/_search.png"></li>
+        <li><a href="/a/tarball" class="nav_link">export</a></li>
+        <li><input type="text" name="search" size="15" value="search" id="search_field" onfocus="clearField('search_field');" /></li>
       </ul>
       </form>
       <%= yield %>

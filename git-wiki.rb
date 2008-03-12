@@ -37,7 +37,6 @@ get('/') { redirect '/' + HOMEPAGE }
 get('/_style.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
 get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
 get('/_app.js') { header 'Content-Type' => 'application/x-javascript'; File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
-get('/_search.png') { header 'Content-Type' => 'image/png'; File.read(File.join(File.dirname(__FILE__), 'images', "search.png")) }
 
 get '/_list' do
   @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []

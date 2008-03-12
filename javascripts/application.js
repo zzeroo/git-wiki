@@ -23,3 +23,7 @@ function distance_of_time_in_words(to, from) {
   years_ago  = Math.round(minutes_ago / 525960);
   return "over " + years_ago + " years" 
 }
+
+function clearField(field_id) {
+  document.getElementById(field_id).value = "";
+}
