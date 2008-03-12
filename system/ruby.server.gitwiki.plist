@@ -4,12 +4,28 @@
   <dict>
     <key>Label</key>
     <string>ruby.gitwiki.server</string>
+    
+    <key>WorkingDirectory</key>
+    <string>/Users/al3x/src/git-wiki</string>
+    
+    <key>Program</key>
+    <string>git-wiki.rb</string>
+    
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/al3x/src/git-wiki/git-wiki.rb</string>
       <string>/Users/al3x/wiki</string>
     </array>
-    <key>KeepAlive</key><true/>
-    <key>RunAtLoad</key><true/>
+    
+    <key>KeepAlive</key>
+    <false/>
+    
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <key>UserName</key>
+    <string>al3x</string>
+    
+    <key>Debug</key>
+    <true/>
   </dict>
 </plist>
