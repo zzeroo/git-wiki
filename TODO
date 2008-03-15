@@ -1,8 +1,7 @@
 = SOON
   * repo stats/info/maintenance page
-  * in-place editing
   * deleting pages 
-  * pushing repo
+  * pushing repo from web interface
 
 = CHACON IDEAS
   * inter-branch links
@@ -23,11 +22,12 @@
   * working launchd plist
   
 = DONE
+  * in-place editing
   * fix duplication of routes/methods to accommodate file extensions
   * "append selected text/link to page" bookmarklet (shamelessly cribbed 
     from Trsly/Instapaper) 
-  * allow "code pages" by supporting file extensions, applying syntax 
-    highlighting
+  * allow "code pages" by supporting file extensions, applying syntax
+    highlighting (removed March 14 2008 by al3x, may add back in)
   * next/previous commit links on pages
   * pretty stylesheet
   

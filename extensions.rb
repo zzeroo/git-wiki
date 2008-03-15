@@ -18,16 +18,3 @@ class Time
     "#{(self.to_i * 1000)}"
   end
 end
-
-module Uv
-  def Uv.syntax_for_file_extension(ext)
-    ext.delete!(".")
-    return ext if Uv.syntaxes.include?(ext)
-    
-    equivs = { 'js' => 'javascript',
-               'pl' => 'perl',
-               'py' => 'python',
-               'rb' => 'ruby' }
-    equivs[ext]
-  end
-end

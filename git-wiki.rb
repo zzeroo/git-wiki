@@ -12,7 +12,7 @@ end
 
 get '/:page' do
   @page_url = page_url
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
 end
 
@@ -22,50 +22,46 @@ get '/:page/raw' do
 end
 
 get '/:page/append' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   @page.body = @page.raw_body + "\n\n" + params[:text]
   redirect '/' + @page.name
 end
 
 get '/e/:page' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   show :edit, "Editing #{@page.name}"
 end
 
 post '/e/:page' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   @page.update(params[:body], params[:message])
   redirect '/' + @page.name
 end
 
 post '/eip/:page' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   @page.update(params[:body])
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   @page.body
 end
 
 get '/h/:page' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   show :history, "History of #{@page.name}"
 end
 
-['/h/:page/:rev', '/h/:page.:format/:rev'].each do |r|
-  get r do
-    @page = Page.new(page_with_ext, params[:rev])
-    show :show, "#{@page.name} (version #{params[:rev]})"
-  end
+get '/h/:page/:rev' do
+  @page = Page.new(params[:page], params[:rev])
+  show :show, "#{@page.name} (version #{params[:rev]})"
 end
 
-['/d/:page/:rev', '/d/:page.:format/:rev'].each do |r|
-  get r do
-    @page = Page.new(page_with_ext)
-    show :delta, "Diff of #{@page.name}"
-  end
+get '/d/:page/:rev' do
+  @page = Page.new(params[:page])
+  show :delta, "Diff of #{@page.name}"
 end
 
 get '/a/patch/:page/:rev' do
-  @page = Page.new(page_with_ext)
+  @page = Page.new(params[:page])
   header 'Content-Type' => 'text/x-diff'
   header 'Content-Disposition' => 'filename=patch.diff'
   @page.delta(params[:rev])
@@ -143,12 +139,6 @@ end
 
 def page_url
   "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
-end
-
-def page_with_ext
-  return params[:page] unless params[:format]
-  puts "FORMAT #{params[:format]}"
-  "#{params[:page]}.#{params[:format]}"
 end
 
 private

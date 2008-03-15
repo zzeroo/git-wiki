@@ -1,5 +1,3 @@
-require 'uv'
-
 class Page
   attr_reader :name
 
@@ -10,12 +8,7 @@ class Page
   end
 
   def body
-    ext = File.extname(@filename)
-    unless ext.empty?
-      @body ||= Uv.parse(raw_body, "xhtml", Uv.syntax_for_file_extension(ext), false, UV_THEME)
-    else
-      @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
-    end
+    @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
   end
   
   def branch_name

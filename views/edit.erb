@@ -9,7 +9,7 @@
 </div>
 
 <div class="content">
-  <form method="post" action="/e/<%= page_with_ext %>">
+  <form method="post" action="/e/<%= @page.name %>">
     <textarea name="body" id="edit_textarea"><%= @page.raw_body %></textarea>
     Message:
     <textarea name="message" rows="4" id="message_textarea"></textarea>
