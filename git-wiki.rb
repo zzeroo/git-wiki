@@ -11,7 +11,6 @@ get '/a/list' do
 end
 
 get '/:page' do
-  @page_url = page_url
   @page = Page.new(params[:page])
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
 end
@@ -137,8 +136,8 @@ get '/a/search' do
   show :search, 'Search Results'
 end
 
-def page_url
-  "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
+def page_url(page)
+  "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}/#{page}"
 end
 
 private

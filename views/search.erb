@@ -1,32 +1,29 @@
 <% if @grep.empty? %>
   <h1>No pages match</h1>
 <% else %>
-  <h1>All matches for '<%= @search %>'</h1>
+  <h1>Results for '<%= @search %>'</h1>
 <% end %>
 
 <div class="sub_nav">
-  Details go here.
+  <div class="details">
+    <%= @grep.size %> pages contain match<br />
+    <%= @grep.map { |g| g[1].size }.inject { |acc, n| acc + n } %> results
+  </div>
 </div>
 
 <div class="content">
-  <br/>
-  <table width="100%">
   <% @grep.each do |sha, arr_match| %>
-    <% (sha, file) = sha.split(':') %>
-    <tr>
-      <td valign="top"><%= $repo.object(sha).name %></td>
-      <td valign="top"><a href="/<%= file %>"><%= file %></a></td>
-      <td><table>
-      <% arr_match.each do |line, match| %>
-      <tr>
-        <td>line <%= line %></td>
-        <td><%= match %></td>
-       </tr>
-      <% end %>
-      </table></td>
-    </tr>
+    <div class="search_result">
+      <% (sha, file) = sha.split(':') %>
+        <% arr_match.each do |line, match| %>
+          <div class="match">
+            <tt><%= match %></tt>
+            <br />
+            &mdash; <a href="/<%= file %>"><%= file %></a>, line <%= line %> (<%= $repo.object(sha).name %>)
+          </div>
+        <% end %>
+    </div>
   <% end %>
-  </table>
 </div>
 
 

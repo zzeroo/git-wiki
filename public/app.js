@@ -25,5 +25,5 @@ function distance_of_time_in_words(to, from) {
 }
 
 function clearField(field_id) {
- document.getElementById(field_id).value = "";
+  document.getElementById(field_id).value = "";
 }
