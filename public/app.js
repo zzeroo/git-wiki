@@ -5,7 +5,7 @@ function time_ago_in_words(from) {
 
 function distance_of_time_in_words(to, from) {
   seconds_ago = ((to  - from) / 1000);
-  minutes_ago = Math.floor(seconds_ago / 60)
+  minutes_ago = Math.floor(seconds_ago / 60);
 
   if(minutes_ago <= 0) { return "less than a minute"; }
   if(minutes_ago == 1) { return "a minute"; }
@@ -25,5 +25,5 @@ function distance_of_time_in_words(to, from) {
 }
 
 function clearField(field_id) {
-  document.getElementById(field_id).value = "";
+ document.getElementById(field_id).value = "";
 }

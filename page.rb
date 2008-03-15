@@ -34,16 +34,16 @@ class Page
     end
   end
 
-  def update(content, message)
+  def update(content, message=nil)
     File.open(@filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}" 
-    commit_message += ' : ' + message if message.length > 0
+    commit_message += ' : ' + message if message && message.length > 0
     begin
       $repo.add(@name)
       $repo.commit(commit_message)
     rescue 
       nil
-    end    
+    end
   end
 
   def tracked?

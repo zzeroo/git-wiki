@@ -1,3 +1,18 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".edit_area").editable('/eip/<%= @page.name %>', {
+      indicator: "saving...",
+      tooltip: 'double-click to edit...',
+      cancel: 'cancel',
+      submit: 'save',
+      event: 'dblclick',
+      cssclass: 'edit',
+      loadurl: '/<%= @page.name %>/raw',
+      type: 'textarea',
+      name: 'body'
+    });
+  });
+</script>
 <h1><%= @page.name %></h1>
 
 <%= @env %>
@@ -30,4 +45,4 @@
   </div>
 </div>
 
-<div class="content"><%= @page.body %></div>
+<div class="content edit_area"><%= @page.body %></div>

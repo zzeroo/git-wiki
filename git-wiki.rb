@@ -3,7 +3,7 @@
 require 'environment'
 require 'lib/sinatra/lib/sinatra'
 
-get('/') { redirect '/' + HOMEPAGE }
+get('/') { redirect "/#{HOMEPAGE}" }
 
 get '/a/list' do
   @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
@@ -14,6 +14,11 @@ get '/:page' do
   @page_url = page_url
   @page = Page.new(page_with_ext)
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
+end
+
+get '/:page/raw' do
+  @page = Page.new(params[:page])
+  @page.raw_body
 end
 
 get '/:page/append' do
@@ -31,6 +36,13 @@ post '/e/:page' do
   @page = Page.new(page_with_ext)
   @page.update(params[:body], params[:message])
   redirect '/' + @page.name
+end
+
+post '/eip/:page' do
+  @page = Page.new(page_with_ext)
+  @page.update(params[:body])
+  @page = Page.new(page_with_ext)
+  @page.body
 end
 
 get '/h/:page' do
@@ -134,11 +146,9 @@ def page_url
 end
 
 def page_with_ext
-  if params[:format] == "html"
-    params[:page]
-  else
-    "#{params[:page]}.#{params[:format]}"
-  end
+  return params[:page] unless params[:format]
+  puts "FORMAT #{params[:format]}"
+  "#{params[:page]}.#{params[:format]}"
 end
 
 private
