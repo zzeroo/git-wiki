@@ -37,6 +37,8 @@ class Page
     rescue 
       nil
     end
+    @body = nil; @raw_body = nil
+    @body
   end
 
   def tracked?

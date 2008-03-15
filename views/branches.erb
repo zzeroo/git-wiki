@@ -2,6 +2,7 @@
 
 <div class="sub_nav">
   <% @branches.each do |b| %>
+    <% next if b.full == 'origin/master' %>
     <% if b.current %>
       <strong><%= b.full %></strong>
     <% else %>

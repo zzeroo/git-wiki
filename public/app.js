@@ -24,6 +24,9 @@ function distance_of_time_in_words(to, from) {
   return "over " + years_ago + " years" 
 }
 
-function clearField(field_id) {
-  document.getElementById(field_id).value = "";
+function clearField(e) {
+  if (e.cleared) { return; }
+  e.cleared = true;
+  e.value = '';
+  e.style.color = '#333';
 }

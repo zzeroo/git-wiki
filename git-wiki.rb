@@ -5,10 +5,7 @@ require 'lib/sinatra/lib/sinatra'
 
 get('/') { redirect "/#{HOMEPAGE}" }
 
-get '/a/list' do
-  @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
-  show(:list, 'Listing pages')  
-end
+# page paths
 
 get '/:page' do
   @page = Page.new(params[:page])
@@ -40,7 +37,6 @@ end
 post '/eip/:page' do
   @page = Page.new(params[:page])
   @page.update(params[:body])
-  @page = Page.new(params[:page])
   @page.body
 end
 
@@ -57,6 +53,13 @@ end
 get '/d/:page/:rev' do
   @page = Page.new(params[:page])
   show :delta, "Diff of #{@page.name}"
+end
+
+# application paths (/a/ namespace)
+
+get '/a/list' do
+  @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
+  show(:list, 'Listing pages')  
 end
 
 get '/a/patch/:page/:rev' do
@@ -135,6 +138,8 @@ get '/a/search' do
   @grep = $repo.grep(@search)
   show :search, 'Search Results'
 end
+
+# support methods
 
 def page_url(page)
   "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}/#{page}"
