@@ -24,6 +24,8 @@
       document.write(time_ago_in_words(<%= @page.updated_at.for_time_ago_in_words %>) + ' ago');
     </script>
     <br />
+    <%= $repo.current_branch %> branch
+    <br />
     <a href="javascript:var q; if (window.getSelection) q=window.getSelection(); else if (document.selection) q=document.selection.createRange().text; if (q != '') location.href='<%= @page_url %>/append?text='+encodeURIComponent(q+' (from &quot;'+document.title+'&quot;:'+location.href+')'); else location.href='<%= @page_url %>/append?text='+encodeURIComponent('&quot;'+document.title+'&quot;:'+location.href);">append bookmarklet</a>
   </div>
 </div>

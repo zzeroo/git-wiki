@@ -26,6 +26,19 @@ h1 {
   margin: 24px 0 8px 0;
 }
 
+input[type=text] { 
+  border: 1px solid #ccc; 
+  font-family: Helvetica, Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
+  font-size: 0.875em;
+}
+
+label { font-size: .9em; }
+
+table {
+  font-size: 0.9em;
+  width: 100%;
+}
+
 textarea {
   border: 1px solid #ccc;
   font-family: "Deja Vu Sans Mono", "Bitstream Vera Sans Mono", "Inconsolata", "Consolas", monospace;
@@ -110,6 +123,10 @@ ul {
 #edit_textarea {
   height: 35em;
   margin-top: 1.5em;
+  width: 100%;
+}
+#message_textarea {
+  height: 4em;
   width: 100%;
 }
 
