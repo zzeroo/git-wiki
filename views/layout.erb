@@ -4,7 +4,8 @@
     <title><%= @title %></title>
     <link rel="stylesheet" href="/_style.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/_code.css" type="text/css" media="screen" />
-    <script language="javascript" type="text/javascript" src="/_app.js"></script>
+    <script language="javascript" type="text/javascript" src="app.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.min.js"></script>
   </head>
   <body>
     <div id="container">
@@ -13,7 +14,7 @@
         <li><a href="/" class="nav_link">home</a></li>
         <li><a href="/a/branches" class="nav_link">branches</a></li>        
         <li><a href="/a/history" class="nav_link">history</a></li>        
-        <li><a href="/_list" class="nav_link">pages</a></li>
+        <li><a href="/a/list" class="nav_link">pages</a></li>
         <li><a href="/a/tarball" class="nav_link">export</a></li>
         <li><input type="text" name="search" size="15" value="search" id="search_field" onfocus="clearField('search_field');" /></li>
       </ul>

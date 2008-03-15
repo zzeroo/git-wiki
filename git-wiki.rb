@@ -1,44 +1,11 @@
 #!/usr/bin/env ruby
 
 require 'environment'
-
-require_gem_with_feedback 'sinatra'
-
-layout { File.read('views/layout.erb') }
-
-def show(template, title)
-  @title = title
-  erb(template)
-end
-
-def page_with_ext
-  if params[:format] == "html"
-    params[:page]
-  else
-    "#{params[:page]}.#{params[:format]}"
-  end
-end
-
-def page_url
-  "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
-end
-
-def touchfile
-  # adds meta file to repo so we have somthing to commit initially
-  $repo.chdir do
-    f = File.new(".meta",  "w+")
-    f.puts($repo.current_branch)
-    f.close
-    $repo.add('.meta')
-  end
-end
+require 'lib/sinatra/lib/sinatra'
 
 get('/') { redirect '/' + HOMEPAGE }
-get('/_style.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', 'style.css')) }
-get('/_code.css') { header 'Content-Type' => 'text/css'; File.read(File.join(File.dirname(__FILE__), 'css', "#{UV_THEME}.css")) }
-get('/_app.js') { header 'Content-Type' => 'application/x-javascript'; File.read(File.join(File.dirname(__FILE__), 'javascripts', "application.js")) }
 
-get '/_list' do
+get '/a/list' do
   @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
   show(:list, 'Listing pages')  
 end
@@ -161,3 +128,32 @@ get '/a/search' do
   @grep = $repo.grep(@search)
   show :search, 'Search Results'
 end
+
+def page_url
+  "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}#{request.env["REQUEST_PATH"]}"
+end
+
+def page_with_ext
+  if params[:format] == "html"
+    params[:page]
+  else
+    "#{params[:page]}.#{params[:format]}"
+  end
+end
+
+private
+
+  def show(template, title)
+    @title = title
+    erb(template)
+  end
+
+  def touchfile
+    # adds meta file to repo so we have somthing to commit initially
+    $repo.chdir do
+      f = File.new(".meta",  "w+")
+      f.puts($repo.current_branch)
+      f.close
+      $repo.add('.meta')
+    end
+  end
