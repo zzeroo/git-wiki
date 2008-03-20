@@ -3,9 +3,10 @@
 <plist version="1.0">
   <dict>
     <key>Label</key>
-    <string>ruby.gitwiki.server</string>
+    <string>ruby.server.gitwiki</string>
     
     <key>WorkingDirectory</key>
+    <!-- change to path to your clone of git-wiki -->
     <string>/Users/al3x/src/git-wiki</string>
     
     <key>Program</key>
@@ -13,7 +14,7 @@
     
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/al3x/wiki</string>
+      <string>-e production</string>
     </array>
     
     <key>KeepAlive</key>
@@ -23,9 +24,16 @@
     <true/>
     
     <key>UserName</key>
+    <!-- change to your username -->
     <string>al3x</string>
     
     <key>Debug</key>
-    <true/>
+    <false/>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+    	<key>PATH</key>
+    	  <string>/usr/local/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin</string>
+    </dict>
   </dict>
 </plist>

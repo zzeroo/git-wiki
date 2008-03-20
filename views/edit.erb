@@ -1,5 +1,7 @@
 <h1>Editing <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
 
+<%= $repo.gtree('HEAD').children.keys %>
+
 <div class="sub_nav">
   <a href="/<%= @page.name %>" class="nav_link">back</a>
   

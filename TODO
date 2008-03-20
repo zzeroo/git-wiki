@@ -19,9 +19,9 @@
   * outliner functionality
   * menubar item launcher (like Instiki back in the day)
   * RubyCocoa GUI
-  * working launchd plist
   
 = DONE
+  * working launchd plist
   * in-place editing
   * fix duplication of routes/methods to accommodate file extensions
   * "append selected text/link to page" bookmarklet (shamelessly cribbed 
