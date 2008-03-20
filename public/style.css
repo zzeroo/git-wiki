@@ -16,7 +16,7 @@ a {
 a:visited { color: #7b69b0; }
 a:hover { text-decoration: underline; }
 
-code, pre, .delta {
+code, pre {
   font-family: "Deja Vu Sans Mono", "Bitstream Vera Sans Mono", "Inconsolata", "Consolas", monospace;
 }
 

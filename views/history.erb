@@ -9,7 +9,10 @@
   <ul>
     <% @page.history.each do |c| %>
       <li>
-        <%= c.committer_date %> &mdash;
+        <script type="text/javascript">
+        document.write(time_ago_in_words(<%= c.committer_date.for_time_ago_in_words %>) + ' ago');
+        </script>
+        &mdash;
         <a href="/h/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
         <% unless @page.history.first == c %>
          &bull; <a href="/d/<%= @page.name %>/<%= c.sha %>">diff</a>
