@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'environment'
-require '../sinatra/lib/sinatra'
+require 'sinatra/lib/sinatra'
 
 get('/') { redirect "/#{HOMEPAGE}" }
 
