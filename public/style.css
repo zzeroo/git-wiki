@@ -48,7 +48,7 @@ textarea {
 
 ul {
   list-style-type: square;
-  padding: 0 0 1em 1.2em;
+  padding: 0 0 1em 1.4em;
 }
 
 /* classes */
@@ -69,13 +69,13 @@ ul {
 }
 
 .content h1, .content h2, .content h3, .content h4 {
-  padding: 0 0 0 0;
+  padding: 0 0 .4em 0;
   margin: 0 0 0 0;
 }
-.content h1 { font-size: 2.4em; }
-.content h2 { font-size: 2.2em; }
-.content h3 { font-size: 2em; }
-.content h4 { font-size: 1.8em; }
+.content h1 { font-size: 2.6em; }
+.content h2 { font-size: 2em; }
+.content h3 { font-size: 1.8em; }
+.content h4 { font-size: 1.6em; }
 
 .delta {
   font-size: 1.1em;
