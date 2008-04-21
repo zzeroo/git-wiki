@@ -5,7 +5,11 @@ class Page
     @name = name
     @rev = rev
     @filename = File.join(GIT_REPO, @name)
-    @attach_dir = File.join(GIT_REPO, '_attachments', @name)
+    @attach_dir = File.join(GIT_REPO, '_attachments', unwiki(@name))
+  end
+  
+  def unwiki(string)
+    string.downcase
   end
 
   def body
@@ -43,11 +47,7 @@ class Page
   end
 
   def tracked?
-    begin
-      $repo.gtree('HEAD').children.keys.include?(@name)
-    rescue 
-      false
-    end
+    $repo.ls_files.keys.include?(@name)
   end
 
   def history
@@ -97,7 +97,7 @@ class Page
     else
       filename = file[:filename]
     end
-    File.makedirs(@attach_dir) if !File.exists?(@attach_dir)
+    FileUtils.mkdir_p(@attach_dir) if !File.exists?(@attach_dir)
     new_file = File.join(@attach_dir, filename)
 
     f = File.new(new_file, 'w')
@@ -131,7 +131,7 @@ class Page
   
   def attachments
     if File.exists?(@attach_dir)
-      return Dir.glob(File.join(@attach_dir, '*')).map { |f| Attachment.new(f, self.name) }
+      return Dir.glob(File.join(@attach_dir, '*')).map { |f| Attachment.new(f, unwiki(@name)) }
     else
       false
     end

@@ -4,14 +4,14 @@
   * pushing repo from web interface
 
 = CHACON IDEAS
-  * inter-branch links
   * tagging
   * file attachments
+  * inter-branch links
   * merge conflict resolution
-  * cherry-picked branches (read-tree/write-tree)
   * git-less version (read-only)
   * track which branched from which
   * push?
+  * cherry-picked branches (read-tree/write-tree)
   * users (email/name/ip - use for commits)
   
 = LATER/MAYBE
