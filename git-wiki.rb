@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
 require 'environment'
 require 'sinatra/lib/sinatra'
 
@@ -58,7 +59,8 @@ end
 # application paths (/a/ namespace)
 
 get '/a/list' do
-  @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
+  pages = $repo.log.first.gtree.children
+  @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
   show(:list, 'Listing pages')  
 end
 
@@ -137,6 +139,30 @@ get '/a/search' do
   @search = params[:search]
   @grep = $repo.grep(@search)
   show :search, 'Search Results'
+end
+
+# file upload attachments
+
+get '/a/file/upload/:page' do
+  @page = Page.new(params[:page])
+  show :attach, 'Attach File for ' + @page.name
+end
+
+post '/a/file/upload/:page' do
+  @page = Page.new(params[:page])
+  @page.save_file(params[:file], params[:name])
+  redirect '/e/' + @page.name
+end
+
+get '/a/file/delete/:page/:file.:ext' do
+  @page = Page.new(params[:page])
+  @page.delete_file(params[:file] + '.' + params[:ext])
+  redirect '/e/' + @page.name
+end
+
+get '/_attachment/:page/:file.:ext' do
+  @page = Page.new(params[:page])
+  send_file(File.join(@page.attach_dir, params[:file] + '.' + params[:ext]))
 end
 
 # support methods
