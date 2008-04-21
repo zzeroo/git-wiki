@@ -59,7 +59,8 @@ end
 # application paths (/a/ namespace)
 
 get '/a/list' do
-  @pages = $repo.log.first.gtree.children.map { |name, blob| Page.new(name) } rescue []
+  pages = $repo.log.first.gtree.children
+  @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
   show(:list, 'Listing pages')  
 end
 
