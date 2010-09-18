@@ -67,14 +67,14 @@ end
 
 get '/a/patch/:page/:rev' do
   @page = Page.new(params[:page])
-  header 'Content-Type' => 'text/x-diff'
-  header 'Content-Disposition' => 'filename=patch.diff'
+  headers 'Content-Type' => 'text/x-diff'
+  headers 'Content-Disposition' => 'filename=patch.diff'
   @page.delta(params[:rev])
 end
 
 get '/a/tarball' do
-  header 'Content-Type' => 'application/x-gzip'
-  header 'Content-Disposition' => 'filename=archive.tgz'
+  headers 'Content-Type' => 'application/x-gzip'
+  headers 'Content-Disposition' => 'filename=archive.tgz'
   archive = $repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
   File.open(archive).read
 end
