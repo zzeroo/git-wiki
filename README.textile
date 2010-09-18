@@ -18,6 +18,6 @@ h2. Requirements
 You can install these requirements via bundler. Just install bundler: gem install bundler.
 Then 'bundle install' installs all the gem.
 
-h3. Configuration
+h2. Configuration
 
 Setup the root of your wiki (where the wiki pages and the git repo lives) in @environment.rb@
