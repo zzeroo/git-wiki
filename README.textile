@@ -14,3 +14,6 @@ h2. Requirements
 * grit
 * redcloth
 * rubypants
+
+You can install these requirements via bundler. Just install bundler: gem install bundler.
+Then 'bundle install' installs all the gem.
