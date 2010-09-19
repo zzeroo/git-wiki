@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'sinatra/base'
-requrie 'grit'
+require 'grit'
 
 module GitWiki
-
+	
 end
