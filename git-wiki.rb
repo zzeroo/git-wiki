@@ -2,8 +2,12 @@
 
 require 'fileutils'
 require 'environment'
-# require 'sinatra/lib/sinatra'
-require 'sinatra'
+require 'rack/file'
+class Rack::File
+  MIME_TYPES = Hash.new { |hash, key|
+  Rack::Mime::MIME_TYPES[".#{key}"] }
+end
+require 'sinatra/lib/sinatra'
 
 get('/') { redirect "/#{HOMEPAGE}" }
 
